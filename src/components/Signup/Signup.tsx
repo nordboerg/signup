@@ -28,13 +28,17 @@ export const Signup: React.FC = () => {
     // eslint-disable-next-line
   }, [activeStep])
 
-  const handleNext = (pageValues: SignupPageValues) => {
+  const savePageValues = (pageValues: SignupPageValues) => {
     const { key } = SIGNUP_PAGES[activeStep].meta
-    // save the values of the current page before proceeding to the next page
+
     setFormValues((formValues) => ({
       ...(formValues ?? {}),
       [key]: pageValues,
     }))
+  }
+
+  const handleNext = (pageValues: SignupPageValues) => {
+    savePageValues(pageValues)
 
     if (!isLastPage) {
       setActiveStep((activeStep) => activeStep + 1)
