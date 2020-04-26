@@ -15,6 +15,9 @@ export const Signup: React.FC = () => {
   const [activeStep, setActiveStep] = React.useState(0)
   const [formValues, setFormValues] = React.useState<FormValues | null>(null)
   const [template, setTemplate] = React.useState<Template | null>(null)
+  // get the step titles from the templates
+  const steps = [...SIGNUP_PAGES.map(({ meta: { title } }) => title), 'Done']
+  const isLastPage = activeStep === steps.length - 1
 
   useEffect(() => {
     setTemplate(SIGNUP_PAGES[activeStep])
@@ -24,11 +27,6 @@ export const Signup: React.FC = () => {
     }
     // eslint-disable-next-line
   }, [activeStep])
-
-  // get the step titles from the templates
-  const steps = [...SIGNUP_PAGES.map(({ meta: { title } }) => title), 'Done']
-
-  const isLastPage = activeStep === steps.length - 1
 
   const handleNext = (pageValues: SignupPageValues) => {
     const { key } = SIGNUP_PAGES[activeStep].meta
@@ -67,16 +65,14 @@ export const Signup: React.FC = () => {
                 <DynamicForm template={template}>
                   {(isValid, values) => (
                     <div className={classes.formActions}>
-                      {!isLastPage && (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleNext(values)}
-                          disabled={!isValid}
-                        >
-                          Submit
-                        </Button>
-                      )}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleNext(values)}
+                        disabled={!isValid}
+                      >
+                        Submit
+                      </Button>
                     </div>
                   )}
                 </DynamicForm>
